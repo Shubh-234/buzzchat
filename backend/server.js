@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
+app.use(express.json()); //parse the incoming requests to json
+
 const PORT = process.env.PORT;
 
 //mongo db connection 
