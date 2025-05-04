@@ -1,13 +1,18 @@
 const express = require('express');
 const dotenv = require("dotenv");
 const app = express();
-const authRoutes = require('./routes/auth.routes');
 const path = require('path');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+
+const authRoutes = require('./routes/auth.routes');
+const messageRoutes = require('./routes/messages.routes');
+const protectedRoutes = require('./middlewares/protectedRoute')
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 app.use(express.json()); //parse the incoming requests to json
+app.use(cookieParser());
 
 const PORT = process.env.PORT;
 
@@ -30,6 +35,7 @@ app.get("/",(req,res)=> {
 
 //middlewares
 app.use("/api/auth",authRoutes);
+app.use("/api/message",protectedRoutes,messageRoutes)
 
 
 //server
